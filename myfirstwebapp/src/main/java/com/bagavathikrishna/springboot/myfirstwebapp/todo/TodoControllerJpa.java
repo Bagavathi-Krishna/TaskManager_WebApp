@@ -43,8 +43,10 @@ public class TodoControllerJpa {
 	@RequestMapping(value="add-todo",method=RequestMethod.GET)
 	public String showNewTodoPage(ModelMap model)
 	{
+		int currId=1;
 		String username = getLoggedInUsername(model);
-		int currId=1+todoRepository.findMaxId(username);
+		if(todoRepository.existsById(1))
+			currId=1+todoRepository.findMaxId(username);
 		Todo todo = new Todo(currId, username, "Default Desc", LocalDate.now().plusYears(1), false);
 		model.put("todo", todo);
 		return "Todo";
